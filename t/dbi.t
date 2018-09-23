@@ -418,6 +418,36 @@ for my $spec (
         dbi => [ [Server => 'foo'], [Port => 123], [Database => 'try'] ],
         qry => [ foo => 1, foo => 2, lol => 'yes', Driver => 'Snowflaker' ],
     },
+    {
+        uri => 'db:clickhouse:',
+        dsn => 'dbi:ODBC:',
+        dbi => [ [DSN => undef] ],
+        qry => [],
+    },
+    {
+        uri => 'db:clickhouse:dbadmin',
+        dsn => 'dbi:ODBC:DSN=dbadmin',
+        dbi => [ [DSN => 'dbadmin'] ],
+        qry => [],
+    },
+    {
+        uri => 'db:clickhouse://yow',
+        dsn => 'dbi:ODBC:Server=yow;Port=8123',
+        dbi => [ [Server => 'yow'], [Port => 8123], [Database => undef] ],
+        qry => [],
+    },
+    {
+        uri => 'db:clickhouse://yow:33',
+        dsn => 'dbi:ODBC:Server=yow;Port=33',
+        dbi => [ [Server => 'yow'], [Port => 33], [Database => undef] ],
+        qry => [],
+    },
+    {
+        uri => 'db:clickhouse://foo:123/try?foo=1&foo=2&lol=yes&Driver=ClickHouse',
+        dsn => 'dbi:ODBC:Server=foo;Port=123;Database=try;foo=1;foo=2;lol=yes;Driver=ClickHouse',
+        dbi => [ [Server => 'foo'], [Port => 123], [Database => 'try'] ],
+        qry => [ foo => 1, foo => 2, lol => 'yes', Driver => 'ClickHouse' ],
+    },
 ) {
     my $uri = $spec->{uri};
     ok my $u = URI->new($uri), "URI $uri";
